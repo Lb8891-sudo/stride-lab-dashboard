@@ -116,8 +116,6 @@ export default function StrideLabDashboard() {
   );
 
   const topRated = [...horses].filter(h => h.Rank).sort((a,b) => a.Rank - b.Rank)[0];
-  const improvingCount = horses.filter(h => h['Development Status'] === 'Improving').length;
-  const untappedCount = horses.filter(h => h['Development Status'] === 'Untapped').length;
 
   return (
     <div className="min-h-screen bg-[#F5F3ED]" style={{ fontFamily: 'system-ui, sans-serif' }}>
@@ -139,14 +137,6 @@ export default function StrideLabDashboard() {
                 <div className="text-right">
                   <div className="text-[#8A9199] text-[10px] uppercase tracking-wide">Top Rated</div>
                   <div className="text-white font-bold">{topRated?.Horse || '—'}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[#8A9199] text-[10px] uppercase tracking-wide">Improving</div>
-                  <div className="text-[#1BBFA8] font-bold">{improvingCount}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[#8A9199] text-[10px] uppercase tracking-wide">Untapped</div>
-                  <div className="text-[#F2C14E] font-bold">{untappedCount}</div>
                 </div>
               </div>
             </div>
