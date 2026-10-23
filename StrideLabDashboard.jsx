@@ -226,7 +226,7 @@ export default function StrideLabDashboard() {
                   {filtered.map((h) => (
                     <React.Fragment key={h.Horse}>
                       <tr
-                        onClick={() => setReportHorse(h.Horse)}
+                        onClick={() => setSelected(selected === h.Horse ? null : h.Horse)}
                         className={`cursor-pointer transition-colors hover:bg-[#FAF9F5] ${selected === h.Horse ? 'bg-[#F0EEE4]' : ''}`}
                       >
                         <td className="px-4 py-2.5"><RankBadge rank={h.Rank} /></td>
@@ -266,6 +266,12 @@ export default function StrideLabDashboard() {
                                 <div className="font-mono text-sm text-[#08131F] mt-0.5">{h['Suggested Ground']}</div>
                               </div>
                             </div>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setReportHorse(h.Horse); }}
+                              className="mt-4 rounded-md bg-[#08131F] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1B2A3A]"
+                            >
+                              Open full report
+                            </button>
                           </td>
                         </tr>
                       )}
