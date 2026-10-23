@@ -22,6 +22,24 @@ export default async function handler(req, res) {
     });
 
     const rows = response.data.values;
+
+    // Trainer and age from the Horses tab (for the app's filters)
+    const extra = {};
+    try {
+      const hr = await sheets.spreadsheets.values.get({ spreadsheetId: process.env.STRIDE_LAB_SPREADSHEET_ID, range: 'Horses!A1:Z1000' });
+      const hv = hr.data.values || [], hh = (hv[0] || []).map(x => String(x).trim().toLowerCase());
+      const iN = hh.indexOf('horse'), iT = hh.indexOf('trainer'), iD = hh.indexOf('d.o.b');
+      const year = new Date().getFullYear();
+      hv.slice(1).forEach(r => {
+        if (!r[iN]) return;
+        const m = String(r[iD] || '').match(/(\d{4})$/);
+        const born = m ? Number(m[1]) : null;
+        extra[String(r[iN]).trim().toLowerCase()] = {
+          Trainer: iT > -1 && r[iT] ? String(r[iT]).trim() : null,
+          Age: born && born > 1990 && born <= year ? year - born : null,
+        };
+      });
+    } catch (e) { console.error('Horses tab:', e.message); }
     if (!rows || rows.length === 0) {
       return res.status(200).json([]);
     }
@@ -36,6 +54,7 @@ export default async function handler(req, res) {
           const num = raw !== undefined && raw !== '' && !isNaN(raw) ? Number(raw) : null;
           record[header] = num !== null ? num : (raw || null);
         });
+        Object.assign(record, extra[String(record.Horse || '').trim().toLowerCase()] || {});
         return record;
       });
 

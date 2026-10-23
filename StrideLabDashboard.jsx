@@ -77,11 +77,15 @@ export default function StrideLabDashboard() {
 
   useEffect(() => { loadData(); }, []);
 
-  const statuses = ['All', 'Improving', 'Untapped', 'Exposed', 'Plateauing', 'Regression Risk'];
+  const ages = ['All', '2yo', '3yo', '4yo+'];
+  const [trainer, setTrainer] = useState('All');
+  const trainers = useMemo(() => ['All', ...Array.from(new Set(horses.map(h => h.Trainer).filter(Boolean))).sort()], [horses]);
+  const ageOk = (h, a) => a === 'All' || (a === '4yo+' ? h.Age >= 4 : h.Age === parseInt(a, 10));
 
   const filtered = useMemo(() => {
     let rows = horses.filter(h => (h.Horse || '').toLowerCase().includes(search.toLowerCase()));
-    if (statusFilter !== 'All') rows = rows.filter(h => h['Development Status'] === statusFilter);
+    rows = rows.filter(h => ageOk(h, statusFilter));
+    if (trainer !== 'All') rows = rows.filter(h => h.Trainer === trainer);
     rows = [...rows].sort((a, b) => {
       let av = a[sortKey], bv = b[sortKey];
       if (av == null) av = sortDir === 'asc' ? Infinity : -Infinity;
@@ -92,7 +96,7 @@ export default function StrideLabDashboard() {
       return 0;
     });
     return rows;
-  }, [horses, search, sortKey, sortDir, statusFilter]);
+  }, [horses, search, sortKey, sortDir, statusFilter, trainer]);
 
   const toggleSort = (key) => {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
@@ -182,7 +186,7 @@ export default function StrideLabDashboard() {
             />
           </div>
           <div className="flex gap-1.5 flex-wrap">
-            {statuses.map(s => (
+            {ages.map(s => (
               <button
                 key={s}
                 onClick={() => setStatusFilter(s)}
@@ -195,6 +199,13 @@ export default function StrideLabDashboard() {
               </button>
             ))}
           </div>
+          <select
+            value={trainer}
+            onChange={e => setTrainer(e.target.value)}
+            className="px-3 py-1.5 rounded-full text-xs font-medium border border-[#C9C4B8] bg-white text-[#3A362E] focus:outline-none focus:ring-2 focus:ring-[#1BBFA8]"
+          >
+            {trainers.map(t => <option key={t} value={t}>{t === 'All' ? 'All trainers' : t}</option>)}
+          </select>
         </div>
       </div>
 
