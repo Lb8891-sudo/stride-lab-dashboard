@@ -29,6 +29,9 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
     return res.status(200).json(JSON.parse(row[iR]));
   } catch (error) {
+    if (/Unable to parse range/i.test(error.message || '')) {
+      return res.status(404).json({ error: 'Horse reports aren\'t switched on yet. Paste the latest Stride Lab script, then run StrideLab → Set-up and maintenance → Rebuild horse reports now.' });
+    }
     console.error('Failed to load report:', error);
     return res.status(500).json({ error: 'Could not load the report', detail: error.message });
   }
