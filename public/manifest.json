@@ -4,8 +4,8 @@
   "description": "Analyse, Predict, Unlock Potential",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#08131F",
-  "theme_color": "#08131F",
+  "background_color": "#0E0E0E",
+  "theme_color": "#0E0E0E",
   "icons": [
     {
       "src": "/icon-192.png",

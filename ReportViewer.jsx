@@ -42,23 +42,23 @@ export default function ReportViewer({ horse, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#E9E7E0]">
-      <div className="flex items-center justify-between gap-3 bg-[#08131F] px-4 py-3 text-white">
-        <button onClick={onClose} className="flex items-center gap-1.5 text-sm font-medium text-[#DCE3EA] hover:text-white">
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#F4EFE6]">
+      <div className="flex items-center justify-between gap-3 bg-[#0E0E0E] px-4 py-3 text-white">
+        <button onClick={onClose} className="flex items-center gap-1.5 text-sm font-medium text-[#F4EFE6] hover:text-white">
           <ArrowLeft size={18} /> Back
         </button>
         <div className="truncate text-sm font-semibold">{horse}</div>
         <button onClick={download} disabled={!html}
-          className="flex items-center gap-1.5 rounded-md bg-[#1BBFA8] px-3 py-1.5 text-sm font-semibold text-[#08131F] disabled:opacity-40">
+          className="flex items-center gap-1.5 rounded-md bg-[#C8A96A] px-3 py-1.5 text-sm font-semibold text-[#0E0E0E] disabled:opacity-40">
           <Download size={16} /> PDF
         </button>
       </div>
       <div className="flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
         {error ? (
-          <div className="px-6 py-16 text-center text-sm text-[#6B6560]">{error}</div>
+          <div className="px-6 py-16 text-center text-sm text-[#6E6D69]">{error}</div>
         ) : !html ? (
-          <div className="px-6 py-16 text-center text-sm text-[#9A9488]">
-            <RefreshCw size={20} className="mx-auto mb-3 animate-spin text-[#1BBFA8]" />
+          <div className="px-6 py-16 text-center text-sm text-[#8A8A86]">
+            <RefreshCw size={20} className="mx-auto mb-3 animate-spin text-[#C8A96A]" />
             Loading {horse}'s report...
           </div>
         ) : (
