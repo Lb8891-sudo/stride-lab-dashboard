@@ -1,3 +1,0 @@
-{
-  "rewrites": [{ "source": "/bloodstock", "destination": "/bloodstock.html" }]
-}
